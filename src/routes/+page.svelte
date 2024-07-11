@@ -17,13 +17,19 @@
   }
 
   async function loadModels() {
-    const MODEL_URL = '/models';
-    await Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-      faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
-    ]);
+    const MODEL_URL = 'public/models';
+    console.log('Loading models...');
+    try {
+      await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
+      ]);
+      console.log('Models loaded successfully');
+    } catch (error) {
+      console.error('Error loading models:', error);
+    }
   }
 
   async function startEmotionDetection() {
@@ -32,8 +38,12 @@
       const detections = await faceapi
         .detectAllFaces(videoElement, new faceapi.TinyFaceDetectorOptions())
         .withFaceExpressions();
+      console.log('Detections:', detections);
       if (detections.length > 0) {
         mood = getDominantEmotion(detections[0].expressions);
+        console.log('Mood detected:', mood);
+      } else {
+        mood = 'N/A';
       }
     }, 1000);
   }
