@@ -1,5 +1,6 @@
 <script>
   import * as faceapi from 'face-api.js';
+  import '@tensorflow/tfjs'; // Importa TensorFlow.js
   import { onMount } from 'svelte';
 
   let videoElement;
