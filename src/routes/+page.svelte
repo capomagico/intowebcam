@@ -17,7 +17,7 @@
   }
 
   async function loadModels() {
-    const MODEL_URL = 'public/models';
+    const MODEL_URL = '/models';
     console.log('Loading models...');
     try {
       await Promise.all([
@@ -39,7 +39,7 @@
         .detectAllFaces(videoElement, new faceapi.TinyFaceDetectorOptions())
         .withFaceExpressions();
       console.log('Detections:', detections);
-      if (detections.length > 0) {
+      if (detections.length > 0 && detections[0].expressions) {
         mood = getDominantEmotion(detections[0].expressions);
         console.log('Mood detected:', mood);
       } else {
@@ -58,7 +58,7 @@
 </script>
 
 <main>
-  <h1>Webcam Live Feed</h1>
+  <h1 style="font: Helvetica; font-size: 100px; font-weight: 600;">INTO Cam</h1>
   <video bind:this={videoElement} autoplay />
   <p>Mood: {mood}</p>
 </main>
@@ -70,7 +70,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     font-family: Arial, sans-serif;
   }
 
@@ -79,11 +79,10 @@
   }
 
   video {
-    border: 2px solid #ccc;
-    border-radius: 8px;
     width: 80%;
+    aspect-ratio: 16/9;
     height: auto;
-    background-color: black;
+    background-color: white;
   }
 
   p {
